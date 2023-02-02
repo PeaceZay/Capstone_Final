@@ -10,6 +10,8 @@ import PlacesCard from './frontend/components/Places';
 // import PlacesCard from './frontend/components/Places';
 import { GoogleMap, useLoadScript, Marker } from "@react-google-maps/api";
 import Map from './frontend/components/Map'
+import { appBarClasses } from '@mui/material';
+
 
 // class App extends Component {
 //   constructor(props) {
@@ -21,7 +23,7 @@ import Map from './frontend/components/Map'
 
 //   componentDidMount(){
 //     // insert url here~!
-//     fetch("https://maps.googleapis.com/maps/api/place/textsearch/json?query=")
+//     fetch("http://18.119.123.101:3001/")
 //     .then(res => res.json())
 //     .then(data => {
 //       console.log("data", data)
@@ -54,7 +56,6 @@ import Map from './frontend/components/Map'
 // }
 // }
 // export default App;
-  
   
   
   

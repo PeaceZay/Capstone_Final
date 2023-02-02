@@ -1,22 +1,26 @@
 const express = require('express');
 const axios = require('axios');
 const mysql = require('mysql2');
-
+const dotenv = require('dotenv')
 const app = express();
+dotenv.config();
+app.use(bodyParse.json())
+const { config } = require('dotenv');
 
-const config = {
-    host: process.env.DATABASE_HOST,
-    user: process.env.DATABASE_USER,
-    password: process.env.DATABASE_PASS,
-    database: process.env.DATABASE_NAME,
+config();
+const configs = {
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASS,
+    database: process.env.DB_NAME,
     maps_key: process.env.MAPS_KEY
   };
 
 const connection = mysql.createConnection({
-  host: config.database,
-  user: config.user,
-  password: config.password,
-  database: config.database
+  host: configs.host,
+  user: configs.user,
+  password: configs.password,
+  database: configs.database
 });
 
 app.get('/api/:id')
@@ -24,11 +28,11 @@ app.get('/api/:id')
 app.get('/api/search', async (req, res) => {
     const search = req.query.search;
     console.log("Hit on Search API...  Searching for " + search)
-    console.log("https://maps.googleapis.com/maps/api/place/textsearch/json?query=" + encodeURI(search) + "&key=" + config.maps_key)
+    console.log("https://maps.googleapis.com/maps/api/place/textsearch/json?query=" + encodeURI(search) + "&key=" + configs.maps_key)
 
     const searchPlaces = async () => {
         const res = await axios.get(
-            "https://maps.googleapis.com/maps/api/place/textsearch/json?query=" + encodeURI(search) + "&key=" + config.maps_key
+            "https://maps.googleapis.com/maps/api/place/textsearch/json?query=" + encodeURI(search) + "&key=" + configs.maps_key
         );
         return res.data.results;
     };
@@ -56,6 +60,7 @@ app.get('/api/search', async (req, res) => {
         const filteredPlaces = places.filter((place) => {
             return database.some((entry) => entry.place_id === place.place_id);
         });
+        // 64 returns filtered places, 65 returns unfiltered places.
         // return filteredPlaces;
         return places;
         // Store places in separate table under 'recent searches'
