@@ -29,7 +29,7 @@ export default function ButtonAppBar() {
           <Typography variant="h5" component="div" sx={{ flexGrow: 1 }} color="Black">
             IT'S All M.E.
           </Typography>
-          <Button color="inherit" onClick={<link to="/Dashboard"></link>} >Login</Button>
+          {/* <Button color="inherit" onClick={<link to="/Dashboard"></link>} >Login</Button> */}
         </Toolbar>
       </AppBar>
     </Box>

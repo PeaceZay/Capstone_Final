@@ -33,6 +33,26 @@ app.get('/api/boblist', (req, res) => {
     });
   });
 
+
+app.post('/api/boblist-post', (req, res) => {
+    let placeId = req.body.place_id;
+    let name = req.body.name;
+    let sql = "Insert into boblist (place_id, name) values (?, ?)";
+    let params = [placeId, name];
+    
+    connection.query(sql, params, function(err, res){
+        
+        if(err){
+            console.log("there was an error", err)
+            res.sendStatus(500)
+        } else {
+            console.log("All good!")
+            res.sendStatus(200)
+        }
+    })
+});
+
+
 app.get('/api/search', async (req, res) => {
     const search = req.query.search;
     console.log("Hit on Search API...  Searching for " + search)

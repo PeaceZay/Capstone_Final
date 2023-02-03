@@ -11,6 +11,7 @@ import PlacesCard from './frontend/components/Places';
 import { GoogleMap, useLoadScript, Marker } from "@react-google-maps/api";
 import Map from './frontend/components/Map'
 import { appBarClasses } from '@mui/material';
+import PlacesList from './componenets/favorites';
 
 
 // class App extends Component {
@@ -64,13 +65,16 @@ import { appBarClasses } from '@mui/material';
     const [places, setPlaces] = useState([]);
     const [searchResults, setSearchResults] = useState([]);
     const [inputValue, setInputValue] = useState("");
-    useState(() => []);
+    // useState(() => []);
 
-    useEffect(() => {
+
+
+
+  useEffect(() => {
       fetch('http://18.119.123.101:3001/api/search?search=')
-      .then((res) = res.json())
-      .then((data) => {
-        const newSearches = data.name;
+      // .then((res) = res.json())
+      .then((place) => {
+        const newSearches = place.name;
         setSearchResults(newSearches);
         return newSearches;
       })
@@ -95,6 +99,7 @@ import { appBarClasses } from '@mui/material';
                 {/* <Switch>
           </Switch>  */}
               </Router>
+              <PlacesList />
               <Map />
             {/* </BrowserRouter> */}
           {/* </Main> */}
