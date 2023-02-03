@@ -1,5 +1,5 @@
 // import React, {Component} from 'react';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './App.css';
 // import Login from './frontend/components/Login';
 // import Register from './frontend/components/Register';
@@ -61,8 +61,24 @@ import { appBarClasses } from '@mui/material';
   
   function App(){
    
-    // const [data, setData] = useState([])  return <Map />;
+    const [places, setPlaces] = useState([]);
+    const [searchResults, setSearchResults] = useState([]);
+    const [inputValue, setInputValue] = useState("");
+    useState(() => []);
 
+    useEffect(() => {
+      fetch('http://18.119.123.101:3001/api/search?search=')
+      .then((res) = res.json())
+      .then((data) => {
+        const newSearches = data.name;
+        setSearchResults(newSearches);
+        return newSearches;
+      })
+      .then((newSearches) => {
+        setSearchResults(newSearches);
+      })
+    }, []);
+    // console.log(places)
 
     
     return (

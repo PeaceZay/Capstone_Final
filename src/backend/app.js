@@ -3,8 +3,8 @@ const axios = require('axios');
 const mysql = require('mysql2');
 const dotenv = require('dotenv')
 const app = express();
-dotenv.config();
-app.use(bodyParse.json())
+// dotenv.config();
+// app.use(bodyParse.json())
 const { config } = require('dotenv');
 
 config();
@@ -16,14 +16,22 @@ const configs = {
     maps_key: process.env.MAPS_KEY
   };
 
-const connection = mysql.createConnection({
+ const connection = mysql.createConnection({
   host: configs.host,
   user: configs.user,
   password: configs.password,
   database: configs.database
 });
+connection.connect();
 
 app.get('/api/:id')
+
+app.get('/api/boblist', (req, res) => {
+    connection.query('SELECT * FROM boblist', (error, results) => {
+      if (error) throw error;
+      res.json(results);
+    });
+  });
 
 app.get('/api/search', async (req, res) => {
     const search = req.query.search;
@@ -60,7 +68,7 @@ app.get('/api/search', async (req, res) => {
         const filteredPlaces = places.filter((place) => {
             return database.some((entry) => entry.place_id === place.place_id);
         });
-        // 64 returns filtered places, 65 returns unfiltered places.
+        // 64 returns filtered places, 65 returns unfiltered places
         // return filteredPlaces;
         return places;
         // Store places in separate table under 'recent searches'
@@ -74,3 +82,5 @@ const port = process.env.PORT || 3001;
 app.listen(port, () => {
   console.log("Server is running on port ${port}");
 });
+
+module.exports = connection;
