@@ -6,6 +6,9 @@ const app = express();
 // dotenv.config();
 // app.use(bodyParse.json())
 const { config } = require('dotenv');
+const cors = require('cors');
+
+app.use(cors());
 
 config();
 const configs = {
@@ -23,6 +26,13 @@ const configs = {
   database: configs.database
 });
 connection.connect();
+
+app.options('/api/search', function (req, res) {
+    res.setHeader("Access-Control-Allow-Origin", "");
+    res.setHeader('Access-Control-Allow-Methods', '');
+    res.setHeader("Access-Control-Allow-Headers", "*");
+    res.end();
+  });
 
 app.get('/api/:id')
 
